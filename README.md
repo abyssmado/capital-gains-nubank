@@ -102,7 +102,7 @@ No container (veja Dockerfile em `Dockerfile`): o ENTRYPOINT padrão no containe
 Cada linha lida pela aplicação deve ser um JSON válido que representa uma ou mais operações. Exemplo simplificado de linha contendo um array de operações:
 
 ```json
-[{"operation":"buy","unit-cost":10.00,"quantity":100,"ticker":"ABC"}]
+[{ "operation": "buy", "unit-cost": 10.0, "quantity": 100, "ticker": "ABC" }]
 ```
 
 Também são aceitas linhas com um único objeto ou outros formatos que seu parser interno entende — ver os testes em `src/application/core/commands/order-operations/pipes` para exemplos reais.

@@ -26,7 +26,9 @@ export function createProcessCommand(
       };
 
       if (!file || file === "-") {
-        console.log("Write the operations or point to the file containing them. \nCtrl+C to quit.\n");
+        console.log(
+          "Write the operations or point to the file containing them. \nCtrl+C to quit.\n",
+        );
         const stdin = stdinStream ?? process.stdin;
         let data = "";
         let idleTimer: NodeJS.Timeout | null = null;

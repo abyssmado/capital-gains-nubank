@@ -4,3 +4,4 @@ coverage
 stdout
 .vscode
 /*.log
+readme.md

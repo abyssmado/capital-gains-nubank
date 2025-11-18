@@ -1,82 +1,100 @@
-# Capital Gains Calculator
+# Nubank | Capital Gains
 
-## Description
+<h1 align="center">
+  <img alt="cgapp logo" src="https://logodownload.org/wp-content/uploads/2019/08/nubank-logo-0-1.png" width="220px"/><br/>
+  Nubank | Capital Gains
+</h1>
 
-This application calculates capital gains based on a series of financial operations. It is designed to be a command-line tool that processes input from `stdin` and outputs results to `stdout`. The application adheres to the following principles:
+<p align="center">
+  Um teste técnico em TypeScript para a posição de Engenheiro de Software. <b>Build conteinerizada</b>, <b>testes</b> e <b>documentação</b>.
+  <br/><br/>
+  Código limpo, bem testado, bem documentado e pensado para manutenção e evolução. 🚀
+</p>
 
-- **In-Memory State Management**: The application does not rely on external databases. All state is managed in memory and reset upon initialization.
+<hr/>
 
-- **Decimal Precision**: All decimal values are rounded to two decimal places.
+<div align="center">
+**[Sobre o Projeto](#sobre-o-projeto) • [Stack & Dependências](#-tech-stack--libs) • [Como Instalar](#-como-instalar) • [Utilizando](#-utilizando-o-sistema) • [Decisões Técnicas](#-decisões-técnicas-e-arquiteturais) • [Testes](#-testes) • [Considerações Finais](#-considerações-finais)**
+</div>
 
-- **Error Handling**: Assumes valid JSON input and does not handle malformed data.
+<br/>
 
-- **Output Format**: Outputs numbers directly without converting them to strings.
+# ☄ Sobre o Projeto
 
-## Features
+Este projeto é uma CLI (linha de comando) que processa um JSON de operações financeiras e calcula o imposto sobre ganho de capital para cada operação de venda, seguindo as regras definidas no enunciado do desafio. A ideia é ter uma ferramenta simples, determinística e fácil de executar localmente ou em container.
 
-- Modular and maintainable code structure.
+O foco foi em:
+- legibilidade e manutenibilidade do código,
+- testes (cobertura e cenários reais),
+- execução reprodutível via Docker,
+- e documentação clara para avaliadores.
 
-- Comprehensive unit and integration tests.
+# 💻 Tech Stack & Libs
 
-- Handles edge cases and extreme scenarios.
+Principais tecnologias usadas e por que as escolhi:
 
-- Lightweight with minimal dependencies.
+- Node.js — runtime estável e popular para CLIs em JavaScript/TypeScript.
+- TypeScript — tipagem estática para reduzir bugs, melhorar refatoração e documentação do domínio.
+- Jest + ts-jest — testes unitários e de integração com bom ecossistema para TypeScript.
+- Commander — para facilitar a construção da interface CLI (parsing de argumentos).
+- ESLint + Prettier — lint e formatação para manter consistência do código.
+- Docker — para build e execução reprodutível em diferentes ambientes.
 
-## Requirements
+Observação: o package.json do projeto mostra dependências como commander, jest, ts-node, TypeScript, ESLint e Prettier. Cada uma foi incluída para tarefas específicas (CLI, testes, execução em dev, qualidade de código).
 
-- Node.js (v16 or higher)
+# 🚀 Como Instalar
 
-- npm (v7 or higher)
+Requisitos:
+- Node.js v16+ (recomendado)
+- npm v7+ (ou Yarn)
+- (opcional) Docker + Docker Compose — para executar em container
 
-## Installation
+Passos rápidos:
 
-1. Clone the repository:
+1. Clone o repositório
+```bash
+git clone https://github.com/abyssmado/capital-gains-nubank.git
+cd capital-gains-nubank
+```
 
-   ```bash
-   git clone https://github.com/abyssmado/capital-gains-nubank.git
-   ```
+2. Instale dependências
+```bash
+npm install
+```
 
-2. Navigate to the project directory:
+3. Build (compilar TypeScript)
+```bash
+npm run build
+```
 
-   ```bash
-   cd capital-gains-nubank
-   ```
+4. Executar (assumindo que compilou para /dist)
+```bash
+# executa leitura de stdin e escreve em stdout
+node dist/main.js < input.txt > output.txt
+# ou, com script definido no package.json
+npm start < input.txt > output.txt
+```
 
-3. Install dependencies:
+Modo desenvolvimento (sem build):
+```bash
+npm run dev
+# Exemplo: echo '[{"operation":"buy","unit-cost":10,"quantity":100}]' | npm run dev
+```
 
-   ```bash
-   npm install
-   ```
+Docker (opcional):
+```bash
+npm run docker:build
+# e depois
+npm run docker:run
+# ou via docker-compose
+npm run docker:compose:up
+```
 
-## Usage
+Dica: o script `npm start` espera que a pasta dist exista (após `npm run build`). Use `npm run dev` para executar diretamente em TypeScript via ts-node durante desenvolvimento.
 
-1. Run the application:
+# ⌨️ Utilizando o sistema
 
-   ```bash
-   npm start < input.txt > output.txt
-   ```
-
-   Replace `input.txt` with your input file and `output.txt` with your desired output file.
-
-2. Run tests:
-
-   ```bash
-   npm test
-   ```
-
-## Testing
-
-The application includes:
-
-- **Unit Tests**: Validate individual components.
-
-- **Integration Tests**: Ensure components work together as expected.
-
-- **Edge Case Tests**: Handle extreme and boundary scenarios.
-
-## Examples
-
-### Input
+Formato esperado (stdin): um array JSON com objetos de operação. Exemplo:
 
 ```json
 [
@@ -85,8 +103,12 @@ The application includes:
 ]
 ```
 
-### Output
+Exemplo de execução:
+```bash
+npm start < example/input.txt > example/output.txt
+```
 
+Output (stdout): um array JSON com objetos contendo o campo `tax`, por exemplo:
 ```json
 [
   { "tax": 0.0 },
@@ -94,10 +116,67 @@ The application includes:
 ]
 ```
 
-## Contributing
+Importante:
+- A aplicação assume JSON válido na entrada; erros de formatação não são corrigidos automaticamente.
+- Cada execução reinicia o estado em memória.
 
-Contributions are welcome! Please fork the repository and submit a pull request.
+# 🧭 Decisões técnicas e arquiteturais
 
-## License
+Resumo das escolhas e por quê:
 
-This project is licensed under the MIT License.
+- In-memory state: simples e suficiente para o escopo do desafio; evita complexidade de persistência e facilita testes determinísticos.
+- TypeScript + tipagem: reduz bugs, facilita entendimento do domínio (modelos de operação) e ajuda a manter invariantes.
+- Arquitetura modular: separação entre parsing/IO, regras de negócio (cálculo), e camada de apresentação; favorece extensibilidade (ex.: trocar CLI por API com pouco esforço).
+- Precisão decimal: todos os valores são arredondados a 2 casas decimais no output para cumprir requisitos financeiros. Decisão de arredondar no final do cálculo para reduzir acumulação de erros.
+- Testes automatizados: foco em testes unitários para regras de negócio e testes de integração para o fluxo input → output.
+- CLI-first: implementado para facilitar avaliação, mas camada de aplicação é desacoplada para permitir adaptação (API, worker) sem reescrever regras.
+
+# ✅ Testes
+
+Executar:
+```bash
+npm test
+```
+
+Scripts úteis:
+- npm run test:watch — roda em modo watch
+- npx jest --coverage — gera relatório de cobertura (se configurado)
+
+O que está coberto:
+- Unit tests: todas as regras de cálculo e transformações críticas.
+- Integration tests: fluxo completo de leitura e escrita (stdin/stdout).
+- Edge cases: vendas acima de posições, vendas parciais, sequências complexas de operações.
+
+# 📝 Observações e limitações
+
+- Entrada: o app assume JSON bem formado; não há tratamento extensivo para JSON malformado por design (conforme enunciado).
+- Persistência: estado em memória — ideal para o desafio, mas se for requisito de escala/recuperação, sugerimos camada de persistência.
+- Casas decimais: saída com 2 casas decimais. Valores terminando em .00 podem aparecer como inteiros dependendo de serialização; stringify do JSON é usada para saída.
+- Performance: implementado para ser eficiente com listas grandes, mas não foi projetado para processamento em massa em paralelo (para esse caso, considerar stream processing).
+- Logging: implementação minimalista para não poluir saída de avaliação; logs podem ser ativados/adicionados facilmente.
+
+# 🔧 Scripts disponíveis (package.json)
+
+- npm run dev        — executa com ts-node (dev)
+- npm run build      — compila TypeScript para dist/
+- npm start          — executa dist/main.js
+- npm test           — roda testes (jest)
+- npm run test:watch — jest em modo watch
+- npm run lint       — eslint
+- npm run format     — prettier && eslint --fix
+- docker scripts para build/run/compose (conforme package.json)
+
+# 🙏 Considerações finais
+
+Obrigado por dedicar tempo para revisar este repositório. Fiz este projeto pensando em clareza, testeabilidade e extensibilidade — tudo isso com um olhar para a qualidade do código e boas práticas. Se quiser, eu posso:
+
+- abrir um PR com este README substituindo o atual;
+- ajustar o texto (versão mais curta ou mais técnica);
+- adicionar badges (build/test/coverage);
+- atualizar scripts Docker conforme preferir.
+
+Se quiser que eu abra um PR com este README, me diga qual branch prefere como base (main ou outra) e eu crio o PR.
+
+# 💜 Agradecimentos
+
+Agradeço ao avaliador pelo tempo e atenção. Se aparecerem dúvidas ou quiser ver uma demo/o passo a passo ao vivo, posso ajudar.

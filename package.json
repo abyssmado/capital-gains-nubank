@@ -2,9 +2,6 @@
   "name": "capital-gains-ts",
   "version": "1.0.0",
   "main": "index.js",
-  "bin": {
-    "calculate-tax": "dist/application/core/commands/collect-operations/index.js"
-  },
   "scripts": {
     "dev": "ts-node src/main.ts",
     "start": "node dist/main.js",

@@ -5,8 +5,8 @@ describe("CalculateTaxService", () => {
   test("calculates taxes for simple buy/sell sequence", () => {
     const service = new CalculateTaxService();
     const operationsMock: Operation[] = [
-      { operation: "buy", unitCost: 10, quantity: 10000 },
-      { operation: "sell", unitCost: 20, quantity: 5000 },
+      { operation: "buy", "unit-cost": 10, quantity: 10000 },
+      { operation: "sell", "unit-cost": 20, quantity: 5000 },
     ];
 
     const taxes = service.calculateTaxes(operationsMock).map((value) => value.tax);
@@ -16,11 +16,11 @@ describe("CalculateTaxService", () => {
   test("applies accumulated losses correctly across multiple sales", () => {
     const service = new CalculateTaxService();
     const operationsMock: Operation[] = [
-      { operation: "buy", unitCost: 10, quantity: 10000 },
-      { operation: "sell", unitCost: 2, quantity: 5000 },
-      { operation: "sell", unitCost: 20, quantity: 2000 },
-      { operation: "sell", unitCost: 20, quantity: 2000 },
-      { operation: "sell", unitCost: 25, quantity: 1000 },
+      { operation: "buy", "unit-cost": 10, quantity: 10000 },
+      { operation: "sell", "unit-cost": 2, quantity: 5000 },
+      { operation: "sell", "unit-cost": 20, quantity: 2000 },
+      { operation: "sell", "unit-cost": 20, quantity: 2000 },
+      { operation: "sell", "unit-cost": 25, quantity: 1000 },
     ];
 
     const taxes = service.calculateTaxes(operationsMock).map((value) => value.tax);

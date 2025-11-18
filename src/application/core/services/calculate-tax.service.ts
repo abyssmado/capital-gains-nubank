@@ -19,7 +19,7 @@ export class CalculateTaxService {
 
   private handleBuy(op: Operation): void {
     this.weightedAverage =
-      (this.quantityHeld * this.weightedAverage + op.quantity * op.unitCost) /
+      (this.quantityHeld * this.weightedAverage + op.quantity * op["unit-cost"]) /
       (this.quantityHeld + op.quantity);
     this.quantityHeld += op.quantity;
   }
@@ -29,8 +29,8 @@ export class CalculateTaxService {
       throw new Error("Trying to sell more than held");
     }
 
-    const totalValue = op.quantity * op.unitCost;
-    let profit = (op.unitCost - this.weightedAverage) * op.quantity;
+    const totalValue = op.quantity * op["unit-cost"];
+    let profit = (op["unit-cost"] - this.weightedAverage) * op.quantity;
 
     if (totalValue <= TAX_FREE_THRESHOLD) {
       if (profit < 0) {

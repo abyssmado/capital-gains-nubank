@@ -7,7 +7,7 @@ export const handleOperations = (arr: Operation[]): void => {
   const calculatedTaxes = calculateTaxService.calculateTaxes(arr);
 
   const formattedTaxes = calculatedTaxes.map((t) => `{ "tax": ${t.tax.toFixed(1)} }`).join(", ");
-  console.log(`\n[${formattedTaxes}]\n`);
+  console.log(`[${formattedTaxes}]`);
 
   const fileProvider = new FileProvider();
   const outPath = "./stdout/output.txt";

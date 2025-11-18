@@ -6,12 +6,9 @@ const makeTaxObjects = (operations: number[]): Tax[] =>
   operations.map((value) => ({ tax: Number.parseFloat(value.toFixed(1)) }));
 
 const mockServiceWith = (operations: number[]): void => {
-  (calcService as unknown as { CalculateTaxService: jest.Mock }).CalculateTaxService = jest
-    .fn()
-    .mockImplementation(() => ({
-      calculateTaxes: (): Tax[] =>
-        operations.map((value) => ({ tax: Number.parseFloat(value.toFixed(1)) })),
-    }));
+  jest.spyOn(calcService as any, "CalculateTaxService").mockImplementation(() => ({
+    calculateTaxes: (): Tax[] => operations.map((value) => ({ tax: Number.parseFloat(value.toFixed(1)) })),
+  }));
 };
 
 const runTestCase = (input: Operation[]): Tax[] => {
@@ -25,6 +22,9 @@ const runTestCase = (input: Operation[]): Tax[] => {
 
 beforeEach(() => {
   jest.clearAllMocks();
+  jest.restoreAllMocks();
+  (calcService as unknown as { CalculateTaxService: any }).CalculateTaxService =
+    jest.requireActual("../src/application/core/services/calculate-tax.service").CalculateTaxService;
   jest.spyOn(pipes, "validateOperationPipe").mockImplementation((x: Operation[]) => x);
   jest.spyOn(pipes, "transformOperationsPipe").mockImplementation((operations: Operation[]) =>
     operations.map((operation) => ({
@@ -140,19 +140,37 @@ describe("Nubank Challenge Cases", () => {
       { operation: "sell", "unit-cost": 2000000.0, quantity: 500000 },
     ];
 
-    const expected = [{ tax: 0.0 }, { tax: 500000000.0 }];
+  const expected = [{ tax: 0.0 }, { tax: 100000000000.0 }];
 
     const result = runTestCase(input);
     expect(result).toEqual(expected);
   });
 
-  test("handles edge case of zero quantity", () => {
+  test("handles large quantities and costs with precision", () => {
+    const input: Operation[] = [
+      { operation: "buy", "unit-cost": 1000000.123, quantity: 1000000 },
+      { operation: "sell", "unit-cost": 2000000.456, quantity: 500000 },
+    ];
+
+    const expected = [
+      { tax: 0.0 },
+      { tax: 100000033300.0 },
+    ];
+
+    const result = runTestCase(input);
+    expect(result).toEqual(expected);
+  });
+
+  test("ignores zero quantity operations", () => {
     const input: Operation[] = [
       { operation: "buy", "unit-cost": 10.0, quantity: 0 },
       { operation: "sell", "unit-cost": 15.0, quantity: 0 },
     ];
 
-    const expected = [{ tax: 0.0 }, { tax: 0.0 }];
+    const expected = [
+      { tax: 0.0 },
+      { tax: 0.0 },
+    ];
 
     const result = runTestCase(input);
     expect(result).toEqual(expected);

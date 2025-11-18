@@ -24,35 +24,39 @@ export class CalculateTaxService {
     this.quantityHeld += op.quantity;
   }
 
-  private handleSell(op: Operation): number {
-    if (op.quantity > this.quantityHeld) {
-      throw new Error("Trying to sell more than held");
-    }
+private handleSell(op: Operation): number {
+  if (op.quantity === 0) {
+    return 0;
+  }
 
-    const totalValue = op.quantity * op["unit-cost"];
-    let profit = (op["unit-cost"] - this.weightedAverage) * op.quantity;
+  if (op.quantity > this.quantityHeld) {
+    throw new Error("Trying to sell more than held");
+  }
 
-    if (totalValue <= TAX_FREE_THRESHOLD) {
-      if (profit < 0) {
-        this.accumulatedLoss += -profit;
-      }
+  const totalValue = op.quantity * op["unit-cost"];
+  let profit = (op["unit-cost"] - this.weightedAverage) * op.quantity;
 
-      this.quantityHeld -= op.quantity;
-      return 0;
-    }
-
-    if (profit > 0 && this.accumulatedLoss > 0) {
-      const deduction = Math.min(profit, this.accumulatedLoss);
-      profit -= deduction;
-      this.accumulatedLoss -= deduction;
-    }
-
+  if (totalValue <= TAX_FREE_THRESHOLD) {
     if (profit < 0) {
       this.accumulatedLoss += -profit;
-      profit = 0;
     }
 
     this.quantityHeld -= op.quantity;
-    return profit * TAX_RATE;
+    return 0;
   }
+
+  if (profit > 0 && this.accumulatedLoss > 0) {
+    const deduction = Math.min(profit, this.accumulatedLoss);
+    profit -= deduction;
+    this.accumulatedLoss -= deduction;
+  }
+
+  if (profit < 0) {
+    this.accumulatedLoss += -profit;
+    profit = 0;
+  }
+
+  this.quantityHeld -= op.quantity;
+  return parseFloat((profit * TAX_RATE).toFixed(2)); // Ensure precision
+}
 }

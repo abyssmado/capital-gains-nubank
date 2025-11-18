@@ -29,8 +29,6 @@ describe("createProcessCommand", () => {
   });
 
   test("reads stdin when '-' is provided", async () => {
-    // Emit the data and let the stream end automatically to avoid multiple
-    // push() calls which trigger SonarQube S7778.
     const input = Readable.from(["a\n\nb\n"]);
 
     const cmdWithStdin = createProcessCommand(input as unknown as NodeJS.ReadableStream);

@@ -13,12 +13,6 @@
 
 <hr/>
 
-<div align="center">
-**[Sobre o Projeto](#sobre-o-projeto) • [Stack & Dependências](#-tech-stack--libs) • [Como Instalar](#-como-instalar) • [Utilizando](#-utilizando-o-sistema) • [Decisões Técnicas](#-decisões-técnicas-e-arquiteturais) • [Testes](#-testes) • [Considerações Finais](#-considerações-finais)**
-</div>
-
-<br/>
-
 # ☄ Sobre o Projeto
 
 Este projeto é uma CLI (linha de comando) que processa um JSON de operações financeiras e calcula o imposto sobre ganho de capital para cada operação de venda, seguindo as regras definidas no enunciado do desafio. A ideia é ter uma ferramenta simples, determinística e fácil de executar localmente ou em container.

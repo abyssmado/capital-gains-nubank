@@ -81,14 +81,42 @@ npm run dev
 # Exemplo: echo '[{"operation":"buy","unit-cost":10,"quantity":100}]' | npm run dev
 ```
 
-Docker (opcional):
-```bash
+Docker (opcional)
+
+Você pode buildar e executar a aplicação dentro de um container. Abaixo estão exemplos práticos (com comandos para Windows cmd.exe e PowerShell quando aplicável).
+
+1) Build da imagem
+
+```cmd
 npm run docker:build
-# e depois
-npm run docker:run
-# ou via docker-compose
-npm run docker:compose:up
 ```
+
+2) Executar a aplicação (duas formas)
+
+- Passando o arquivo de entrada como parâmetro (recomendado)
+
+  No cmd.exe:
+  ```cmd
+  npm run docker:run-file
+  ```
+
+  No PowerShell:
+  ```powershell
+  docker run --rm -v "${PWD}/stdout:/app/stdout" -v "${PWD}/stdin:/app/stdin" capital-gains-ts:latest process /app/stdin/input.txt
+  ```
+
+- Modo interativo (cola/insere JSON no stdin)
+
+  No cmd.exe (interactive):
+  ```cmd
+  npm run docker:run
+  ```
+
+  Observação: o modo interativo abre a CLI dentro do container; você pode colar JSON válido e aguardar o timeout automático ou encerrar a entrada para que a aplicação processe os dados. Para enviar o conteúdo de um arquivo ao modo interativo use um pipe (ex.: `type stdin\\input.txt | docker run --rm -i -v "%cd%\\stdout:/app/stdout" capital-gains-ts:latest`).
+
+Notas rápidas:
+- O container escreve o resultado em `/app/stdout`; a pasta `./stdout` do projeto é montada para acessar os arquivos localmente.
+- Se alterar o `Dockerfile`, rode `npm run docker:build` antes de `docker run`.
 
 Dica: o script `npm start` espera que a pasta dist exista (após `npm run build`). Use `npm run dev` para executar diretamente em TypeScript via ts-node durante desenvolvimento.
 

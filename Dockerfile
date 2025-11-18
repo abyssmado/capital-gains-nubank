@@ -27,5 +27,6 @@ RUN addgroup -S app && adduser -S -G app app \
 USER app
 
 # Default: run the CLI and pass any CMD args to it (e.g. process -)
-ENTRYPOINT ["node", "dist/index.js"]
+# NOTE: compiled entry point is `dist/main.js` (from `src/main.ts`), update accordingly
+ENTRYPOINT ["node", "dist/main.js"]
 CMD ["process", "-"]

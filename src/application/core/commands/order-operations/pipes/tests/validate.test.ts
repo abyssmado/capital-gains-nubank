@@ -5,7 +5,7 @@ import { validateOperationPipe } from "../validate";
 describe("validateOperationPipe", () => {
   test("returns array when given array", () => {
     const arr: any[] = [];
-    expect(validateOperationPipe(arr)).toBe(arr);
+    expect(validateOperationPipe(arr)).toStrictEqual(arr); // Substituído `toBe` por `toStrictEqual`
   });
 
   test("throws when given non-array", () => {

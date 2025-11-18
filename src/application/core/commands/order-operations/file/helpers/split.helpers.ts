@@ -1,5 +1,5 @@
 export function handleEscape(
-  ch: string,
+  character: string,
   start: () => void,
   end: () => void,
   escape: boolean,
@@ -9,7 +9,7 @@ export function handleEscape(
     return true;
   }
 
-  if (ch === "\\") {
+  if (character === "\\") {
     start();
     return true;
   }
@@ -17,8 +17,8 @@ export function handleEscape(
   return false;
 }
 
-export function handleStringToggle(ch: string, toggle: () => void): boolean {
-  if (ch === '"') {
+export function handleStringToggle(character: string, toggle: () => void): boolean {
+  if (character === '"') {
     toggle();
     return true;
   }
@@ -26,17 +26,17 @@ export function handleStringToggle(ch: string, toggle: () => void): boolean {
   return false;
 }
 
-export function updateDepth(ch: string, depth: number): number {
-  if (ch === "[") return depth + 1;
-  if (ch === "]") return depth - 1;
-  return depth;
+export function updateDepth(character: string, currentDepth: number): number {
+  if (character === "[") return currentDepth + 1;
+  if (character === "]") return currentDepth - 1;
+  return currentDepth;
 }
 
-export function shouldFlush(depth: number, buffer: string): boolean {
-  return depth === 0 && buffer.trim().length > 0;
+export function shouldFlush(currentDepth: number, bufferContent: string): boolean {
+  return currentDepth === 0 && bufferContent.trim().length > 0;
 }
 
-export function flushRemaining(buffer: string, callback: (v: string) => void): void {
-  const trimmed = buffer.trim();
+export function flushRemaining(bufferContent: string, callback: (value: string) => void): void {
+  const trimmed = bufferContent.trim();
   if (trimmed) callback(trimmed);
 }

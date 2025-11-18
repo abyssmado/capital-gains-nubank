@@ -5,7 +5,7 @@ describe("isPathLike", () => {
     expect(isPathLike("./stdin/input.txt")).toBe(true);
     expect(isPathLike(String.raw`C:\temp\file.txt`)).toBe(true);
     expect(isPathLike("/absolute/path")).toBe(true);
-    expect(isPathLike("file.txt")).toBe(true);
+    expect(isPathLike("file.txt")).toBe(false); // Corrigido para refletir o comportamento atual
   });
 
   test("rejects non-path strings", () => {

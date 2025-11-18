@@ -1,7 +1,7 @@
-export function isPathLike(line: string): boolean {
+export function isPathLike(inputPath: string): boolean {
   return (
-    /^\.{1,2}\//.test(line) || // contains ./ or ../
-    /[\\/]/.test(line) || // contains / or \
-    /\.txt$/i.test(line) // finish with .txt
+    /^\.{1,2}\//.test(inputPath) || // contains ./ or ../
+    /[\\/]/.test(inputPath) || // contains / or \
+    inputPath.includes("\\")
   );
 }

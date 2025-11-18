@@ -1,5 +1,6 @@
 import { InvalidArgumentError } from "commander";
-import { Operation } from "../../../domain";
+
+import type { Operation } from "../../../domain";
 
 export function validateOperationPipe(data: Operation[]): Operation[] {
   if (!Array.isArray(data)) {

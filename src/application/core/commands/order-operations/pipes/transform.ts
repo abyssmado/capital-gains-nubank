@@ -1,5 +1,5 @@
 import { toNumber } from "../../../../shared/utils";
-import { Operation } from "../../../domain";
+import type { Operation } from "../../../domain";
 
 export function transformOperationsPipe(operations: any[]): Operation[] {
   return operations.map((op) => ({

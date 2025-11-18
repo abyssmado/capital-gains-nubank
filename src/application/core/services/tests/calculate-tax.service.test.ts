@@ -1,5 +1,5 @@
-import { CalculateTaxService } from "../calculate-tax.service";
 import type { Operation } from "../../domain";
+import { CalculateTaxService } from "../calculate-tax.service";
 
 describe("CalculateTaxService", () => {
   test("calculates taxes for simple buy/sell sequence", () => {

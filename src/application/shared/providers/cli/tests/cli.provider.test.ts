@@ -1,4 +1,5 @@
 import { Command } from "commander";
+
 import { CliProvider } from "../cli.provider";
 
 describe("CliProvider", () => {

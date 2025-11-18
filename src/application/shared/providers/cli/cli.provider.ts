@@ -1,5 +1,6 @@
-import type { CliProviderInterface } from "./cli.provider.interface";
 import { Command } from "commander";
+
+import type { CliProviderInterface } from "./cli.provider.interface";
 
 export class CliProvider implements CliProviderInterface {
   private readonly cliClient;

@@ -1,6 +1,6 @@
-import { Operation } from "../../domain";
-import { CalculateTaxService } from "../../services/calculate-tax.service";
 import { FileProvider } from "../../../shared/providers/file/file.provider";
+import type { Operation } from "../../domain";
+import { CalculateTaxService } from "../../services/calculate-tax.service";
 
 export const handleOperations = (arr: Operation[]): void => {
   const calculateTaxService = new CalculateTaxService();

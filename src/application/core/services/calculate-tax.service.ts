@@ -1,5 +1,5 @@
-import type { Operation, Tax } from "../domain";
 import { TAX_RATE, TAX_FREE_THRESHOLD } from "../../shared/constants";
+import type { Operation, Tax } from "../domain";
 
 export class CalculateTaxService {
   private quantityHeld = 0;

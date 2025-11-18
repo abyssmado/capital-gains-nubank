@@ -1,10 +1,8 @@
-import { handleOperations, startLoop } from "./application/core/commands/order-operations";
-import {
-  parseOperationPipe,
-  transformOperationsPipe,
-  validateOperationPipe,
-} from "./application/core/commands/order-operations/pipes";
-import { Operation } from "./application/core/domain";
+import type { Operation } from "../../domain";
+
+import { parseOperationPipe, transformOperationsPipe, validateOperationPipe } from "./pipes";
+
+import { handleOperations } from ".";
 
 export type Stage<I, O> = (input: I) => O;
 
@@ -14,7 +12,7 @@ const pipeline: [
   Stage<any[], Operation[]>,
 ] = [parseOperationPipe, validateOperationPipe, transformOperationsPipe];
 
-function processLine(line: string): void {
+export function processLine(line: string): void {
   try {
     let acc: string | Operation[] = line;
 
@@ -29,4 +27,4 @@ function processLine(line: string): void {
   }
 }
 
-startLoop(processLine);
+export default processLine;

@@ -1,5 +1,6 @@
-import { FileProvider } from "../file.provider";
 import fs from "node:fs";
+
+import { FileProvider } from "../file.provider";
 
 describe("FileProvider", () => {
   const out = "./stdout/test-output.txt";

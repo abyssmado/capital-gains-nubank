@@ -1,4 +1,5 @@
 import fs from "node:fs";
+
 import type { FileProviderInterface } from "./file.provider.interface";
 
 export class FileProvider implements FileProviderInterface {

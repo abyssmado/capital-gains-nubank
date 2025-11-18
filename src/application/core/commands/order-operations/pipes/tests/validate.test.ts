@@ -1,5 +1,6 @@
-import { validateOperationPipe } from "../validate";
 import { InvalidArgumentError } from "commander";
+
+import { validateOperationPipe } from "../validate";
 
 describe("validateOperationPipe", () => {
   test("returns array when given array", () => {

@@ -1,0 +1,13 @@
+version: "3.8"
+
+services:
+  app:
+    build: .
+    image: capital-gains-ts:latest
+    volumes:
+      - ./stdout:/app/stdout
+      - ./stdin:/app/stdin
+    command: ["process", "-"]
+    stdin_open: true
+    tty: false
+    restart: "no"
